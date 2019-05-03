@@ -62,20 +62,20 @@ def clients():
 def room_name():
     return '315-test-room'
 
-
+# @pytest.mark.skip
 def test_get_room_list(clients):
     r, status_code = clients[0].get_room_list()
     assert status_code == 200
     assert r is not None
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_remove_room(clients, room_name):
     r, status_code = clients[0].remove_room(room_name)
     assert status_code == 200 or status_code == 404
     r, status_code = clients[0].remove_room(room_name)
     assert status_code == 404
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_add_room_ifnotexist(clients, room_name):
     clients[0].remove_room(room_name)
     r, status_code = clients[0].add_room_ifnotexist(room_name)
@@ -86,7 +86,7 @@ def test_add_room_ifnotexist(clients, room_name):
     r, status_code = clients[0].add_room_ifnotexist(room_name)
     assert status_code == 200
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_add_newroom(clients, room_name):
     r, status_code = clients[0].remove_room(room_name)
     assert status_code == 200 or status_code == 404
@@ -98,7 +98,7 @@ def test_add_newroom(clients, room_name):
     r, status_code = clients[0].add_newroom(room_name)
     assert status_code == 404
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_get_members(clients, room_name):
     r, status_code = clients[0].remove_room(room_name)
     assert status_code == 200 or status_code == 404
@@ -110,7 +110,7 @@ def test_get_members(clients, room_name):
     assert status_code == 200
     assert len(r) == 0
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_join_room(clients, room_name):
     clients[0].remove_room(room_name)
     clients[0].add_newroom(room_name)
@@ -128,7 +128,7 @@ def test_join_room(clients, room_name):
         username = 'user{}'.format(i)
         assert username in members
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_leave_room(clients, room_name):
     clients[0].remove_room(room_name)
     clients[0].add_newroom(room_name)
@@ -142,7 +142,7 @@ def test_leave_room(clients, room_name):
     r, status_code = clients[0].leave_room(room_name, username)
     assert status_code == 404
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_join_room_multi_servers(clients, room_name):
     assert len(clients) > 1
     clients[0].remove_room(room_name)

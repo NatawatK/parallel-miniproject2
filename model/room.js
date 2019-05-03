@@ -7,7 +7,7 @@ async function getAllRooms(){
     let snapshot = await roomRef.get()
     snapshot.forEach(doc => {
         // console.log(doc.id, '=>', doc.data());
-        rooms.push(doc.data())
+        rooms.push(doc.id)
         });
         console.log("Here is rooms array", rooms)
     return rooms
@@ -20,42 +20,57 @@ async function checkExistingRoom(roomID){
       console.log('No matching documents.');
       return false
     }
-    snapshot.forEach(doc => {
-      console.log(doc.id, '=>', doc.data());
-      return true
-    })
-
+    
+    console.log(doc.id, '=>', doc.data());
+    return true
 }
 
 async function createRoom(roomID){
-    let room = await roomRef.doc(roomID).set({
-        user : []
-    })
-    console.log('Added document with ID: ', room);
-    return room;
+    try{
+        let room = await roomRef.doc(roomID).set({
+            user : []
+        })
+        console.log('Added document with ID: ', room);
+        return true;
+    }
+    catch(err){
+        console.log("create new room err :", err)
+        return false
+    }
+    
 }
 
 async function deleteRoom(roomID){
-    var deleteDoc = roomRef.doc(roomID).delete();
+    try{
+        var deleteDoc = await roomRef.doc(roomID).delete();
+        return true
+    }
+    catch(err){
+        return false
+    }
+    
 }
 
 async function getUsersInRoom(roomID){
     users = []
-    var snapshot = await citiesRef.doc(roomID).get()
-    if (snapshot.empty) {
-        console.log('No matching documents.');
-        return false
-      }
-    snapshot.forEach(doc => {
-        console.log(doc.id, '=>', doc.data());
-        users = doc.data().user;
-        return users
-    })
-
+    try{
+            var snapshot = await roomRef.doc(roomID).get()
+        if (snapshot.empty) {
+            console.log('No matching documents.');
+            return false
+        }
+        user = snapshot.data().user
+        console.log("nmber of user", user.length)
+        return user
+    }
+    catch(err){
+        console.log("Firebase error", err)
+        return []
+    }
 }
 
 async function joinRoom(roomID, userID){
-    let oldUsers = await getUsersInRoom(roomID)
+    let oldUsers = await getUsersInRoom(roomID) || []
     if(oldUsers.includes(userID)){
         return 0
     }
@@ -65,7 +80,24 @@ async function joinRoom(roomID, userID){
 }
 
 async function exitRoom(roomID, userID){
-    
+    let oldUsers = await getUsersInRoom(roomID) || []
+    console.log(roomID + " has user " + oldUsers)
+    if(!oldUsers.includes(userID)){
+        return 0
+    }
+    let newUsers = oldUsers.filter( (id) => {
+        return id !== userID
+    })
+    let doc = await roomRef.doc(roomID).update({user : newUsers})
+    return 1
 }
 
-module.exports = { getAllRooms , createRoom}
+module.exports = { 
+    getAllRooms, 
+    createRoom,
+    checkExistingRoom,
+    deleteRoom, 
+    getUsersInRoom,
+    joinRoom,
+    exitRoom
+}
