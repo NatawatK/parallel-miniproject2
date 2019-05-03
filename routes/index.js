@@ -81,20 +81,20 @@ router.post('/room/:ROOM_ID', async (req, res) =>{
   let roomID = req.params.ROOM_ID;
   let user = req.body.user
   if(await Room.joinRoom(roomID, user)){
-    res.status(200).json({})
+    res.status(201).json({})
     return
   }
-  res.status(201).json({})
+  res.status(200).json({})
 })
 
 router.put('/room:ROOM_ID', async (req, res) =>{
   let roomID = req.params.ROOM_ID;
   let user = req.body.user
   if(await Room.joinRoom(roomID, user)){
-    res.status(200).json({})
+    res.status(201).json({})
     return
   }
-  res.status(201).json({})
+  res.status(200).json({})
 })
 
 router.delete('/room/:ROOM_ID', async (req, res) => {

@@ -11,7 +11,8 @@ import pytest
 
 # configuration for the location of test servers
 servers = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'http://localhost:3001'
 ]
 
 class ChatMgmtClient:

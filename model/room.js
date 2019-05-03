@@ -54,13 +54,13 @@ async function deleteRoom(roomID){
 async function getUsersInRoom(roomID){
     users = []
     try{
-            var snapshot = await roomRef.doc(roomID).get()
+        var snapshot = await roomRef.doc(roomID).get()
         if (snapshot.empty) {
             console.log('No matching documents.');
             return false
         }
         user = snapshot.data().user
-        console.log("nmber of user", user.length)
+        console.log("number of user", user.length, " ==> ", user)
         return user
     }
     catch(err){
@@ -70,8 +70,11 @@ async function getUsersInRoom(roomID){
 }
 
 async function joinRoom(roomID, userID){
+    console.log('join room ', userID, " --> ", roomID)
     let oldUsers = await getUsersInRoom(roomID) || []
+    console.log("oldusers = ", oldUsers)
     if(oldUsers.includes(userID)){
+        console.log("Already has user in room")
         return 0
     }
     let newUsers = oldUsers.concat([userID])
