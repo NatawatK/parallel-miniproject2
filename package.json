@@ -1,0 +1,22 @@
+{
+  "name": "parallel-miniproject2",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "test": "pytest test/test_chatmgmt_server.py"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "firebase": "^5.10.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
+    "nodemon": "^1.18.11"
+  },
+  "devDependencies": {
+    "es-check": "^5.0.0"
+  }
+}
